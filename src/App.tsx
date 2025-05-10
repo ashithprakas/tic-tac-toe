@@ -1,12 +1,9 @@
-import "./App.css";
-
-function App() {
-
+import MainWindow from "./Components/Main_Window/MainWIndow"
+import "./Components/Main_Window/MainWindow.css"
+const App = () => {
   return (
-    <div>
-      <h1>Hello World</h1>
-    </div>
-  );
+    <div><MainWindow /></div>
+  )
 }
 
-export default App;
+export default App
