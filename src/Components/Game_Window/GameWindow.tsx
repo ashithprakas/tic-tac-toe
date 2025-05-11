@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { O_IMAGE, X_IMAGE } from "../../assets";
-import { EasyCpuStrategy, type CpuStrategy } from "../../Logic/Logic.abstract";
+import { checkWinner, EasyCpuStrategy } from "../../Logic/Logic.abstract";
 import "./GameWindow.css";
 import { GAME_MODES } from "../../Constants/Constants";
 import type { GameMode } from "../../Models/Models";
@@ -9,9 +9,7 @@ const GameWindow = ({ gameMode }: { gameMode: GameMode | null }) => {
   const [board, setBoard] = useState<string[]>(Array(9).fill(""));
   const [currentPlayer, setCurrentPlayer] = useState<string>("x");
   const [moves, setMoves] = useState<number>(0);
-  const [cpuStrategy, setCpuStrategy] = useState<CpuStrategy>(
-    new EasyCpuStrategy()
-  );
+  const [cpuStrategy, setCpuStrategy] = useState<any>();
   const [lock, setLock] = useState<boolean>(true);
 
   function handleCellClick(row: number, col: number) {
@@ -52,28 +50,14 @@ const GameWindow = ({ gameMode }: { gameMode: GameMode | null }) => {
   }
 
   useEffect(() => {
-    const winningCombinations = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-
-    for (let combo of winningCombinations) {
-      const [a, b, c] = combo;
-      if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-        alert(`${board[a]} wins!`);
-        resetGame();
-        return;
-      }
-    }
-
-    if (moves === 9) {
+    const winner = checkWinner(board);
+    if (winner === "draw") {
       alert("It's a draw!");
+      resetGame();
+      return;
+    }
+    if (winner) {
+      alert(`${winner} wins!`);
       resetGame();
       return;
     }
