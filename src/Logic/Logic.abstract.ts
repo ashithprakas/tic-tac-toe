@@ -18,15 +18,15 @@ export function checkWinner(board: string[]) {
     [0, 4, 8],
     [2, 4, 6],
   ];
-  let moves = board.reduce((acc, cell) => (cell !== "" ? acc + 1 : acc), 0);
-  if (moves === 9) {
-    return "draw";
-  }
   for (let combo of winningCombinations) {
     const [a, b, c] = combo;
     if (board[a] && board[a] === board[b] && board[a] === board[c]) {
       return board[a];
     }
+  }
+  let moves = board.reduce((acc, cell) => (cell !== "" ? acc + 1 : acc), 0);
+  if (moves === 9) {
+    return "draw";
   }
   return null;
 }
