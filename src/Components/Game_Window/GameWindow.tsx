@@ -12,7 +12,6 @@ import type { GameMode } from "../../Models/Models";
 const GameWindow = ({ gameMode }: { gameMode: GameMode | null }) => {
   const [board, setBoard] = useState<string[]>(Array(9).fill(""));
   const [currentPlayer, setCurrentPlayer] = useState<string>("x");
-  const [moves, setMoves] = useState<number>(0);
   const [cpuStrategy, setCpuStrategy] = useState<any>();
   const [lock, setLock] = useState<boolean>(true);
 
@@ -25,7 +24,6 @@ const GameWindow = ({ gameMode }: { gameMode: GameMode | null }) => {
       newBoard[index] = currentPlayer;
       setBoard(newBoard);
       setCurrentPlayer((prev) => (prev === "x" ? "o" : "x"));
-      setMoves((prev) => prev + 1);
       setLock(false);
     }
   }
@@ -33,7 +31,6 @@ const GameWindow = ({ gameMode }: { gameMode: GameMode | null }) => {
   function resetGame() {
     setBoard(Array(9).fill(""));
     setCurrentPlayer("x");
-    setMoves(0);
     setLock(false);
   }
 
@@ -47,7 +44,6 @@ const GameWindow = ({ gameMode }: { gameMode: GameMode | null }) => {
       setTimeout(() => {
         setBoard(newBoard);
         setCurrentPlayer("x");
-        setMoves((prev) => prev + 1);
       }, 500);
       setLock(false);
     }
