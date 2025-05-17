@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { O_IMAGE, X_IMAGE } from "../../assets";
-import { checkWinner, EasyCpuStrategy } from "../../Logic/Logic.abstract";
+import {
+  AICpuStrategy,
+  checkWinner,
+  EasyCpuStrategy,
+} from "../../Logic/Logic.abstract";
 import "./GameWindow.css";
 import { GAME_MODES } from "../../Constants/Constants";
 import type { GameMode } from "../../Models/Models";
@@ -62,8 +66,7 @@ const GameWindow = ({ gameMode }: { gameMode: GameMode | null }) => {
       return;
     }
 
-    // CPU move after player's turn
-    if (gameMode === GAME_MODES.CPU && currentPlayer === "o") {
+    if (gameMode !== GAME_MODES.PVP && currentPlayer === "o") {
       makeCpuMove();
     }
   }, [board]);
@@ -75,6 +78,9 @@ const GameWindow = ({ gameMode }: { gameMode: GameMode | null }) => {
 
     if (gameMode === GAME_MODES.CPU) {
       setCpuStrategy(new EasyCpuStrategy());
+    }
+    if (gameMode === GAME_MODES.AI) {
+      setCpuStrategy(new AICpuStrategy());
     }
   }, [gameMode]);
 
@@ -92,7 +98,7 @@ const GameWindow = ({ gameMode }: { gameMode: GameMode | null }) => {
                   className="game-board-cell"
                   key={col}
                   onClick={() =>
-                    gameMode === GAME_MODES.CPU && currentPlayer === "o"
+                    gameMode !== GAME_MODES.PVP && currentPlayer === "o"
                       ? null
                       : handleCellClick(row, col)
                   }

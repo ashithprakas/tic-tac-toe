@@ -28,4 +28,65 @@ export function checkWinner(board: string[]) {
       return board[a];
     }
   }
+  return null;
+}
+
+export class AICpuStrategy {
+  private readonly SCORES = {
+    o: 1,
+    x: -1,
+    draw: 0,
+  };
+  getMove(board: string[]): number {
+    let bestMove = -1;
+    let bestScore = -Infinity;
+    for (let i = 0; i < board.length; i++) {
+      if (board[i] === "") {
+        board[i] = "o";
+        let score = this.miniMaxSolver(board, false, 0);
+        board[i] = "";
+        if (score > bestScore) {
+          bestScore = score;
+          bestMove = i;
+          console.log(bestMove);
+        }
+      }
+    }
+    return bestMove;
+  }
+
+  private miniMaxSolver(
+    board: string[],
+    isMaximizing: boolean,
+    depth: number = 0
+  ): number {
+    let result = checkWinner(board);
+    if (result != null) {
+      let score = this.SCORES[result as keyof typeof this.SCORES];
+      return score;
+    }
+    if (isMaximizing) {
+      let bestScore = -Infinity;
+      for (let i = 0; i < board.length; i++) {
+        if (board[i] === "") {
+          board[i] = "o";
+          let score = this.miniMaxSolver(board, false, depth + 1);
+          board[i] = "";
+          bestScore = Math.max(score, bestScore);
+        }
+      }
+      return bestScore;
+    } else {
+      let bestScore = Infinity;
+      for (let i = 0; i < board.length; i++) {
+        if (board[i] === "") {
+          board[i] = "x";
+          let score = this.miniMaxSolver(board, true, depth + 1);
+          board[i] = "";
+          bestScore = Math.min(score, bestScore);
+        }
+      }
+      return bestScore;
+    }
+  }
 }

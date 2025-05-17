@@ -27,6 +27,7 @@ const MenuWindow = ({ onStartGame }: MenuWindowProps) => {
           >
             <option value={GAME_MODES.PVP}>Player vs Player</option>
             <option value={GAME_MODES.CPU}>Player vs CPU</option>
+            <option value={GAME_MODES.AI}>Player vs AI</option>
           </select>
           <button className="start-button" onClick={() => handleStartGame()}>
             Start Game
