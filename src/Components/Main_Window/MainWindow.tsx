@@ -13,7 +13,6 @@ const MainWindow = () => {
   return (
     <div>
       <MenuWindow onStartGame={handleStartGame} />
-
       <GameWindow gameMode={gameMode} />
     </div>
   );
