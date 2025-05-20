@@ -85,7 +85,7 @@
   height: 100%;
   width: 100%;
   backdrop-filter: blur(6px);
-  background-color: rgba(15, 27, 33, 0.8); /* matches #0f1b21 */
+  background-color: rgba(15, 27, 33, 0.8);
 }
 .game-message {
   margin-inline: 30px;
