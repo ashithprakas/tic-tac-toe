@@ -76,3 +76,53 @@
     height: 367px;
   }
 }
+
+.game-message-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 100%;
+  width: 100%;
+  backdrop-filter: blur(6px);
+  background-color: rgba(15, 27, 33, 0.8); /* matches #0f1b21 */
+}
+.game-message {
+  margin-inline: 30px;
+  font-size: 24px;
+  color: #26ffcb;
+  font-weight: bold;
+  background: #0f1b21;
+  padding: 20px 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(38, 255, 203, 0.3);
+}
+
+.game-message {
+  margin-top: 30px;
+  font-size: 24px;
+  color: #26ffcb;
+  font-weight: bold;
+  background: #0f1b21;
+  padding: 20px 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(38, 255, 203, 0.3);
+}
+
+.restart-button {
+  margin-top: 15px;
+  padding: 12px 24px;
+  font-size: 18px;
+  background-color: #1f3540;
+  color: #26ffcb;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.restart-button:hover {
+  background-color: #2a4c5a;
+}

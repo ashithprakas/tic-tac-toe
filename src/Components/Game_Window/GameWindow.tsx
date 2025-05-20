@@ -14,6 +14,8 @@ const GameWindow = ({ gameMode }: { gameMode: GameMode | null }) => {
   const [currentPlayer, setCurrentPlayer] = useState<string>("x");
   const [cpuStrategy, setCpuStrategy] = useState<any>();
   const [lock, setLock] = useState<boolean>(true);
+  const [gameMessage, setGameMessage] = useState<string | null>(null);
+  const [awaitingReset, setAwaitingReset] = useState<boolean>(false);
 
   function handleCellClick(row: number, col: number) {
     const index = row * 3 + col;
@@ -32,6 +34,8 @@ const GameWindow = ({ gameMode }: { gameMode: GameMode | null }) => {
     setBoard(Array(9).fill(""));
     setCurrentPlayer("x");
     setLock(false);
+    setGameMessage(null);
+    setAwaitingReset(false);
   }
 
   function makeCpuMove() {
@@ -52,13 +56,15 @@ const GameWindow = ({ gameMode }: { gameMode: GameMode | null }) => {
   useEffect(() => {
     const winner = checkWinner(board);
     if (winner === "draw") {
-      alert("It's a draw!");
-      resetGame();
+      setGameMessage("It's a draw! Press Enter to restart.");
+      setAwaitingReset(true);
+      setLock(true);
       return;
     }
     if (winner) {
-      alert(`${winner} wins!`);
-      resetGame();
+      setGameMessage(`${winner.toUpperCase()} wins! Press Enter to restart.`);
+      setAwaitingReset(true);
+      setLock(true);
       return;
     }
 
@@ -66,6 +72,16 @@ const GameWindow = ({ gameMode }: { gameMode: GameMode | null }) => {
       makeCpuMove();
     }
   }, [board]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (awaitingReset && e.key === "Enter") {
+        resetGame();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [awaitingReset]);
 
   useEffect(() => {
     if (gameMode) {
@@ -85,6 +101,17 @@ const GameWindow = ({ gameMode }: { gameMode: GameMode | null }) => {
       <h1 className="title">
         Tic Tac Toe <span>Game</span>
       </h1>
+      {gameMessage && (
+        <div className="game-message-container">
+          <div className="game-message">
+            <p>{gameMessage}</p>
+            <button className="restart-button" onClick={resetGame}>
+              Tap to Restart
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="game-container">
         <div className="game-board">
           {[0, 1, 2].map((row) => (
